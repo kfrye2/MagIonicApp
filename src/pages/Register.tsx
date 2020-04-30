@@ -1,14 +1,13 @@
 import {
-    IonContent, IonList, IonItem, IonCheckbox, IonLabel,
-    IonNote, IonBadge, IonHeader, IonPage, IonTitle, IonToolbar,
-    IonButtons, IonBackButton, IonIcon, IonThumbnail, IonGrid, IonCol, IonRow, IonInput, IonButton, IonItemDivider, IonText
+    IonContent, IonItem, IonLabel, IonHeader, IonPage, IonTitle, IonToolbar,
+    IonButtons, IonBackButton, IonGrid, IonCol, IonRow, IonInput, IonButton, IonText
 } from '@ionic/react';
 import React from 'react';
 import './Home.css';
-import { logoChrome, arrowForwardOutline } from 'ionicons/icons';
 import { RouteComponentProps } from 'react-router';
 import { useState } from 'react';
-import { doLogin } from '../firebase.js';
+import { doNewLogin } from '../firebase.js';
+import jsCookie from 'js-cookie';
 
 const Home: React.FC<RouteComponentProps> = (props) => {
     const [email, setEmail] = useState('');
@@ -16,14 +15,18 @@ const Home: React.FC<RouteComponentProps> = (props) => {
     const [username, setUsername] = useState('');
 
     async function handleClick(e: { preventDefault: () => void; }) {
-        console.log('The link was clicked.');
         console.log(email);
         console.log(password);
         const check = JSON.stringify({
             email: email,
-            password: password
+            password: password,
+            username: username
         });
-        var r = await doLogin(check);
+        var result = await doNewLogin(check);
+        if(result.err == false){
+            jsCookie.set("screenname", result.un);
+            props.history.push('/home');
+        }
     }
 
     return (
@@ -31,6 +34,7 @@ const Home: React.FC<RouteComponentProps> = (props) => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <IonBackButton defaultHref="/login" />
                     </IonButtons>
                     <IonTitle className="logoSmall"></IonTitle>

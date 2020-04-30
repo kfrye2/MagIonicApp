@@ -1,12 +1,4 @@
-
-
-//import firebase from "firebase/app";
-//import { FirebaseAuthentication } from '@ionic-native/firebase-authentication/ngx';
 import * as firebase from "firebase";
-//import "firebase/auth";
-//import "firebase/firestore";
-//require("firebase/firestore");
-import jsCookie from 'js-cookie';
 
 var firebaseConfig = {
     apiKey: "AIzaSyAUZt0Z-OIYs0YlzBS_WDjjYHWScjUcFo4",
@@ -23,13 +15,6 @@ var firebaseConfig = {
   firebase.analytics();
 
   export const firestore = firebase.firestore();
-/*
-
-import * as firebase from "firebase";
-
-constructor(private firebaseAuthentication: FirebaseAuthentication) {
-
- }*/
 
   export async function doLogin(check) {
       const info = JSON.parse(check);
@@ -37,7 +22,7 @@ constructor(private firebaseAuthentication: FirebaseAuthentication) {
       var err;
       var userName = "";
       if(info.email.length && info.password.length) {
-        const auth = await firebase.auth().signInWithEmailAndPassword(info.email, info.password)
+        await firebase.auth().signInWithEmailAndPassword(info.email, info.password)
             .then(function(result) {
                 msg = "Success";
                 err = false;
@@ -79,36 +64,41 @@ constructor(private firebaseAuthentication: FirebaseAuthentication) {
     var userName = "";
     var msg = "";
     var err;
-    const auth = await firebase.auth().signInWithPopup(provider).then(function(result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        //var token = result.credential.accessToken;
-        // The signed-in user info.
-        var user = result.user;        
-        if(user.displayName == null || user.displayName === ""){
-            const emailName = user.email.split("@");
-            userName = emailName[0];
-        } else {
-            userName = user.displayName;
-        }
-        msg = "Success";
-        err = false;
-      }).catch(function(error) {
-        // Handle Errors here.
-        msg = error.message;
-        err = true;
-      });
+    await firebase.auth().signInWithPopup(provider)
+        .then(function(result) {
+            var user = result.user;        
+            if(user.displayName == null || user.displayName === ""){
+                const emailName = user.email.split("@");
+                userName = emailName[0];
+            } else {
+                userName = user.displayName;
+            }
+            msg = "Success";
+            err = false;
+        }).catch(function(error) {
+            // Handle Errors here.
+            msg = error.message;
+            err = true;
+        });
     return { msg: msg, err: false, un: userName };
   }
 
-  /*
-  var user = firebase.auth().currentUser;
-
-user.updateProfile({
-  displayName: "Jane Q. User",
-  photoURL: "https://example.com/jane-q-user/profile.jpg"
-}).then(function() {
-  // Update successful.
-}).catch(function(error) {
-  // An error happened.
-});
-  */
+  export async function doNewLogin(info) {
+    const user = JSON.parse(info);
+    var userName = user.username;
+    var msg = "";
+    var err;
+    console.log(user);
+    const v = await firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+        .then(function(result) {
+            msg = "Success";
+            err = false;
+        })
+        .catch(function(error) {
+            console.dir(error);
+            msg = error.message;
+            err = true;
+        });
+    console.log("AFTER!");
+    return { msg: msg, err: false, un: userName };
+  }

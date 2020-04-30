@@ -97,11 +97,11 @@ const Compass: React.FC<ContainerProps> = () => {
             /* Set current Compass */
             const year = new Date().getFullYear();
             setCurrentYear(year);
-            const declinationFromZero = await getMagCurrent(alt, lat, long, year);
+            await getMagCurrent(alt, lat, long, year);
             /* Set previous Compass */
-            const declinationFromZeroPrev = await getMagPrev(alt, lat, long, year-5);
+            await getMagPrev(alt, lat, long, year-5);
             /* Set future Compass */
-            const declinationFromZeroFuture = await getMagFuture(alt, lat, long, year+4.9);            
+            getMagFuture(alt, lat, long, year+4.9);
         };
         latLongLoc();
     }, []);

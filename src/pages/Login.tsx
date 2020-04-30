@@ -1,8 +1,6 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, 
-    IonCard, IonGrid, IonRow, IonCol, IonText,
-    IonButtons, IonCardContent, IonItem, IonIcon, IonLabel, IonButton,
-    IonAlert,IonItemDivider, IonList, IonInput, IonThumbnail} from '@ionic/react';
-import { pin, wifi, wine, warning, walk, arrowForwardOutline, logoChrome } from 'ionicons/icons';
+import { IonContent, IonPage, IonGrid, IonRow, IonCol, IonText, IonItem, IonIcon, 
+    IonLabel, IonButton, IonAlert, IonInput, IonThumbnail} from '@ionic/react';
+import { arrowForwardOutline, logoChrome } from 'ionicons/icons';
 import{ useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import React from 'react';
@@ -63,9 +61,6 @@ const Login: React.FC<RouteComponentProps> = (props) => {
   
     return (
       <IonPage>
-        <IonHeader className="ion-no-border">
-          <IonToolbar></IonToolbar>
-        </IonHeader>
         <IonContent>
             <IonAlert
             isOpen={showAlert1}
@@ -74,14 +69,9 @@ const Login: React.FC<RouteComponentProps> = (props) => {
             message={alertMsg}
             buttons={['OK']}
             />
-          <IonHeader collapse="condense">
-            <IonToolbar>
-              <IonTitle size="large">Blank</IonTitle>
-            </IonToolbar>
-          </IonHeader>
           <IonGrid>
             <IonRow>
-              <IonCol>
+              <IonCol className="logo-holder">
                 <IonThumbnail className="logo"></IonThumbnail>
               </IonCol>
             </IonRow>
