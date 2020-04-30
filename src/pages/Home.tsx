@@ -6,11 +6,10 @@ import './Home.css';
 import { caretDownOutline, caretUpOutline } from 'ionicons/icons';
 import { RouteComponentProps } from 'react-router';
 import{ useState } from 'react';
-import {doLogin} from '../firebase.js';
-import axios from 'axios';
 import Compass from '../components/Compass';
 import ShowChart from '../components/Chart';
 import WebMapView from '../components/WebMap';
+import jsCookie from 'js-cookie';
 
 const Home: React.FC<RouteComponentProps> = (props) => {
   const [showPopover, setShowPopover] = useState(false);
@@ -25,7 +24,7 @@ const Home: React.FC<RouteComponentProps> = (props) => {
     <IonPage>
       <IonHeader>
           <IonToolbar color="light">
-              <IonTitle className="logoSmall ion-text-left"><small>Welcome, UserName</small></IonTitle>
+            <IonTitle className="logoSmall ion-text-left"><small>Welcome, {jsCookie.get("screenname")}</small></IonTitle>
               <IonButtons slot="primary">
                 <IonButton slot="end" className="lowerButtonTxt" size="small" color="medium" fill="clear" onClick={() => setShowPopover(true)}><small>logout</small></IonButton>
               </IonButtons>

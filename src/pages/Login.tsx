@@ -1,32 +1,65 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, 
     IonCard, IonGrid, IonRow, IonCol, IonText,
     IonButtons, IonCardContent, IonItem, IonIcon, IonLabel, IonButton,
-    IonBackButton,IonItemDivider, IonList, IonInput, IonThumbnail} from '@ionic/react';
+    IonAlert,IonItemDivider, IonList, IonInput, IonThumbnail} from '@ionic/react';
 import { pin, wifi, wine, warning, walk, arrowForwardOutline, logoChrome } from 'ionicons/icons';
-import{ useState } from 'react';
+import{ useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import React from 'react';
 import './Login.css';
-import {doLogin} from '../firebase.js';
+import {doLogin, doGoogleLogin} from '../firebase.js';
+import jsCookie from 'js-cookie';
+import { Plugins } from '@capacitor/core';
 
 const Login: React.FC<RouteComponentProps> = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showAlert1, setShowAlert1] = useState(false);
+    const [alertMsg, setAlertMsg] = useState("msg");
   
     async function handleClick(e: { preventDefault: () => void; }) {
-      console.log('The link was clicked.');
-      console.log(email);
-      console.log(password);
       const check = JSON.stringify({
         email:email,
         password:password});
       var result = await doLogin(check);
-      console.dir(result.error);
-      console.dir(result.msg);
-      if(result.error == false){
+      if(result.err == false){
+        jsCookie.set("screenname", result.un);
         props.history.push('/home');
+      } else {
+        setAlertMsg(result.msg);
+        setEmail("");
+        setPassword("");
+        setShowAlert1(true);
       }
     }
+
+    async function googleLogin() {
+        var result = await doGoogleLogin();
+        if(result.err == false){
+            jsCookie.set("screenname", result.un);
+            props.history.push('/home');
+          } else {
+            setAlertMsg(result.msg);
+            setEmail("");
+            setPassword("");
+            setShowAlert1(true);
+          }
+    }
+
+    const { Geolocation } = Plugins;
+    async function getLocation() {
+        const position = await Geolocation.getCurrentPosition();
+        return position;
+    }
+
+    useEffect(() => {
+        const latLongLoc = async () => {
+            const geo = await getLocation();
+            jsCookie.set("lat", geo.coords.latitude.toString());
+            jsCookie.set("long", geo.coords.longitude.toString());
+        };
+        latLongLoc();
+    }, []);    
   
     return (
       <IonPage>
@@ -34,6 +67,13 @@ const Login: React.FC<RouteComponentProps> = (props) => {
           <IonToolbar></IonToolbar>
         </IonHeader>
         <IonContent>
+            <IonAlert
+            isOpen={showAlert1}
+            onDidDismiss={() => setShowAlert1(false)}
+            header={'An Error Occured'}
+            message={alertMsg}
+            buttons={['OK']}
+            />
           <IonHeader collapse="condense">
             <IonToolbar>
               <IonTitle size="large">Blank</IonTitle>
@@ -102,7 +142,7 @@ const Login: React.FC<RouteComponentProps> = (props) => {
           </IonRow>
           <IonRow>
             <IonCol class="ion-text-center">
-              <IonButton className="lowerButtonTxt" size="small" color="dark" fill="outline" onClick={() => props.history.push('/login')}>
+              <IonButton className="lowerButtonTxt" size="small" color="dark" fill="outline" onClick={googleLogin}>
                 <IonIcon icon={logoChrome} />Sign In with Google
               </IonButton>
             </IonCol>          

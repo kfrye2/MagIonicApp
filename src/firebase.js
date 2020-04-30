@@ -6,6 +6,7 @@ import * as firebase from "firebase";
 //import "firebase/auth";
 //import "firebase/firestore";
 //require("firebase/firestore");
+import jsCookie from 'js-cookie';
 
 var firebaseConfig = {
     apiKey: "AIzaSyAUZt0Z-OIYs0YlzBS_WDjjYHWScjUcFo4",
@@ -21,7 +22,6 @@ var firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
 
-  export const auth = firebase.auth();
   export const firestore = firebase.firestore();
 /*
 
@@ -31,41 +31,73 @@ constructor(private firebaseAuthentication: FirebaseAuthentication) {
 
  }*/
 
-
   export async function doLogin(check) {
       const info = JSON.parse(check);
+      var msg = "";
+      var err;
+      var userName = "";
       if(info.email.length && info.password.length) {
-        var msg = "";
-        var error;
         const auth = await firebase.auth().signInWithEmailAndPassword(info.email, info.password)
             .then(function(result) {
                 msg = "Success";
-                error = false;
-                console.log(result);//result.user.tenantId //should be ‘TENANT_PROJECT_ID’.
+                err = false;
+                if(result.user.displayName == null || result.user.displayName === ""){
+                    const emailName = result.user.email.split("@");
+                    userName = emailName[0];
+                } else {
+                    userName = result.user.displayName;
+                }
             })
             .catch(function(error) {
                 if (error.code === 'auth/wrong-password') {
-                    error = true;
+                    err = true;
                     msg = "Wrong password.";
                 } else {
-                    error = true;
+                    err = true;
                     msg = error.message;
                 }
             });
         if(msg===""){
-            error = true;
-            msg = "No esiting user with those credentials";
+            err = true;
+            msg = "No esiting user with those credentials";;
         }
         // Display the new image by rewriting the 'file://' path to HTTP
         // Details: https://ionicframework.com/docs/core-concepts/webview#file-protocol
         return {
-            error: error,
-            msg: msg
+            err: err,
+            msg: msg,
+            un: userName
         };
       } else {
-        return { error: true, msg: "Enter Information" };
+        return { err: true, msg: "Enter Information", un: userName };
       }
       
+  }
+
+  export async function doGoogleLogin() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    var userName = "";
+    var msg = "";
+    var err;
+    const auth = await firebase.auth().signInWithPopup(provider).then(function(result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        //var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;        
+        if(user.displayName == null || user.displayName === ""){
+            const emailName = user.email.split("@");
+            userName = emailName[0];
+        } else {
+            userName = user.displayName;
+        }
+        msg = "Success";
+        err = false;
+      }).catch(function(error) {
+        // Handle Errors here.
+        msg = error.message;
+        err = true;
+      });
+    return { msg: msg, err: false, un: userName };
   }
 
   /*
