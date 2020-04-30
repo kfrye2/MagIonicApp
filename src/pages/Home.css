@@ -1,0 +1,61 @@
+.find-out-more {
+    font-family: 'Quicksand', sans-serif;
+}
+
+
+.logo {
+    padding: 26%;
+    background-image: url("../components/myicon.png");
+    background-repeat: no-repeat;
+    background-size: 125px;
+    background-position: center;
+    margin: auto auto;
+}
+.logoSmall {
+    height: 35px;
+    background-image: url("../components/myicon.png");
+    background-repeat: no-repeat;
+    background-size: 31.5px;
+    padding-left: 40px;
+    margin-left: 8px;
+}
+
+.logoutPopover{
+    padding: 10px;
+    text-align: center;
+}
+
+.white {
+    color: #ffffff;
+}
+.lowerButtonTxt {
+    text-transform: none;
+}
+.signinBlock {
+    padding-left: 8%;
+    padding-right: 8%;
+}
+.signinBlockBtn {
+    padding-left: 8%;
+    padding-right: 8%;
+    text-align: center;
+}
+.registerBlock {
+    padding-left: 8%;
+    padding-right: 8%;
+    padding-top: 15%;
+}
+
+.separator {
+    border-bottom: 0.5px solid #9a9a9a;
+    height: 0;
+    padding-top: 5px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Nobile:wght@500&family=Play&family=Ramabhadra&display=swap');
+.title {
+    font-size: 28px;
+    font-family: 'Nobile', sans-serif;
+    font-weight: 500;
+    color: #444444;
+}

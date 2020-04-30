@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+.year-label {
+  font-size: 13px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+}
+
+.dec-label {
+  font-size: 13px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.change-label {
+  font-size: 10px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.change-container {
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+/** css courtesy of https://github.com/rafael-lima */
+
+@import url('http://fonts.googleapis.com/css?family=Raleway:400,200,300,500,600,700');
+
+.compass {
+  width: 85px;
+  height: 85px;
+  font-size: 10px;
+  font-family: 'Quicksand', sans-serif;
+  color: #888;
+  text-align: center;
+  position: relative;
+  margin: auto;
+  margin-bottom: 15px;
+  background: linear-gradient(#DDD, #CCC 20%, #DDD);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px .8px #999;
+  animation: sliding 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-animation: sliding 1.9s ease-in-out;
+}
+
+.compass-main {
+  width: 94%;
+  height: 94%;
+  position: absolute;
+  top: 50%; left: 50%;
+  margin-top: -47%; margin-left: -47%;
+  background: radial-gradient(#EEE 50%, #DDD 80%);
+  border-radius: 50%;
+}
+
+.compass-rose {
+  width: 70%;
+  height: 70%;
+  position: absolute;
+  top: 48%; left: 58%;
+  margin-top: -35%; margin-left: -35%;
+}
+
+.pointer {
+  width: 0; height: 0;
+  position: absolute;
+  border: 45px solid;
+  border-left: 6px solid; border-right: 6px solid;
+}
+
+.cardial-points .pointer {
+  border-color: #DDD transparent transparent transparent;
+}
+
+.ordinal-points .pointer {
+  border-color: #AAA transparent transparent transparent;
+}
+
+.north-pointer {
+  top: -40px; margin-top: -18px;
+  left: 50%; margin-left: -12.5px;
+  -webkit-transform: rotate(180deg);
+}
+
+.east-pointer {
+  top: 44%; right: -14px; 
+  margin-top: -40px;
+  -webkit-transform: rotate(-90deg);
+}
+
+.west-pointer {
+  top: 44%; left: -26px; 
+  margin-top: -40px;
+  -webkit-transform: rotate(90deg);
+}
+
+.south-pointer {
+  bottom: -40px; margin-bottom: -22px;
+  left: 50%; margin-left: -12.25px;
+}
+
+
+
+.bt-center {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  z-index: 100000;
+  top: 55%; left: 55%;
+  margin-top: -8px; margin-left: -8px;
+  display: block;
+  background: #444;
+  border-radius: 50%;
+}
+
+.dip-needle {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  z-index: 999;
+  top: 50%; left: 50%;
+  margin-top: -6px; margin-left: -6px;
+  -webkit-animation: animation-dip-needle 1s linear 0s infinite;
+}
+
+/*Red needle*/
+.dip-needle:after {
+  content: "";
+  width: 0; height: 0;
+  position: absolute;
+  top: -66px; left: 32px;
+  border: 40px solid;
+  border-left: 1px solid; border-right: 1px solid;
+  border-color: #B20000 transparent transparent transparent;
+  -webkit-transform: rotate(220deg);
+  z-index: -10000;
+}
+
+/*Gray needle*/
+.dip-needle:before {
+  content: "";
+  display: block;
+  width: 0; height: 0;
+  position: absolute;
+  top: -3px; left: -20.75px;
+  border: 40px solid;
+  border-left: 1px solid; border-right: 1px solid;
+  border-color: #CCC transparent transparent transparent;
+  -webkit-transform: rotate(40deg);
+}
+
+.north-label {
+  position: absolute;
+  top: -16px; left: 37px;
+}
+
+.east-label {
+  position: absolute;
+  top: 35px; right: -14px;
+}
+
+.west-label {
+  position: absolute;
+  top: 35px; left: -16px;
+}
+
+.south-label {
+  position: absolute;
+  bottom: -18px; left: 37px;
+}
+
+.create {
+  font-size: 1.2em;
+  -webkit-animation: fadeIn 2.2s ease-in;
+}
+
+.author {
+  text-decoration: none;
+  color: #1abc9c;
+}
+
+@keyframes animation-dip-needle {
+  /*0% { transform: rotate(-70deg); }
+  30% { transform: rotate(-30deg); }
+  50% { transform: rotate(-40deg); }
+  70% { transform: rotate(-20deg); }
+  100% { transform: rotate(-70deg); }*/
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;  
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sliding {
+  0% { transform: translateY(-800px); opacity:0; }
+  70%{ opacity:0.4; }
+  80% { transform: translateY(48px); opacity:0.6; }
+  100% { transform: translateY(0); opacity:1; }
+}
