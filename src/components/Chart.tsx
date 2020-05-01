@@ -23,6 +23,9 @@ const ShowChart: React.FC<ContainerProps> = () => {
     }
 
     const [spin, setSpin] = useState(true);
+    const [eastWest, setEastWest] = useState("");
+    const [posNeg, setPosNeg] = useState("");
+    const [styles, setStyles] = useState({ color: `` });
 
     useEffect(() => {
         const latLongLoc = async () => {
@@ -39,6 +42,9 @@ const ShowChart: React.FC<ContainerProps> = () => {
             const get2018 = await axios.get(`https://globalmagnet.amentum.space/wmm/magnetic_field?altitude=${alt}&latitude=${lat}&longitude=${long}&year=${2018}`); 
             const get2019 = await axios.get(`https://globalmagnet.amentum.space/wmm/magnetic_field?altitude=${alt}&latitude=${lat}&longitude=${long}&year=${2019}`); 
             const get2020 = await axios.get(`https://globalmagnet.amentum.space/wmm/magnetic_field?altitude=${alt}&latitude=${lat}&longitude=${long}&year=${2020}`); 
+            setEastWest((get2020.data.declination.value > 0) ? "east" : "west")
+            setPosNeg((get2020.data.declination.value > 0) ? "positive" : "negative");
+            setStyles({ ...styles, color: (get2020.data.declination.value > 0) ? `#2dd36f` : `#eb445a` });
             const get2021 = await axios.get(`https://globalmagnet.amentum.space/wmm/magnetic_field?altitude=${alt}&latitude=${lat}&longitude=${long}&year=${2021}`); 
             const get2022 = await axios.get(`https://globalmagnet.amentum.space/wmm/magnetic_field?altitude=${alt}&latitude=${lat}&longitude=${long}&year=${2022}`); 
             const get2023 = await axios.get(`https://globalmagnet.amentum.space/wmm/magnetic_field?altitude=${alt}&latitude=${lat}&longitude=${long}&year=${2023}`); 
@@ -66,7 +72,6 @@ const ShowChart: React.FC<ContainerProps> = () => {
                     datasets: [
                         {
                             //label: "Magnetic Declination",
-                            fill: false,
                             data: dataList,
                             borderColor: "#222428"
                         }
@@ -106,10 +111,24 @@ const ShowChart: React.FC<ContainerProps> = () => {
     }, []);
 
     return (
-        <div className="container ion-text-center">
-            {spin == true ? <IonSpinner name="crescent" /> : null }
-            <br/>
+        <div className="container">
+            <div className="ion-text-center">
+                {spin == true ? <IonSpinner name="crescent" /> : null }
+                <br/>
+            </div>
+            
+            <IonText className="find-out-more">
+                The declination at your location is  <b style={styles}>{posNeg}</b> and therefore, is to the <b style={styles}>{eastWest}</b> of true north.
+            </IonText>
+            <br /><br />
+            <IonText className="find-out-more">
+                Check out the graph to see how declination at your location has changed in the past, and is projected to change in the future.
+            </IonText>
             <canvas id="canvas" className="find-out-more" width="100%" height="50%"></canvas>
+            <br />
+            <IonText className="find-out-more">
+                See <a href="https://www.ngdc.noaa.gov/geomag/">NOAAs Geomagnetism page</a> to find out more!
+            </IonText>
         </div>
     );
 };

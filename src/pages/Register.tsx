@@ -32,9 +32,9 @@ const Home: React.FC<RouteComponentProps> = (props) => {
     return (
         <IonPage>
             <IonHeader>
-                <IonToolbar>
+                <IonToolbar color="light">
                     <IonButtons slot="start">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <IonBackButton defaultHref="/login" />
                     </IonButtons>
                     <IonTitle className="logoSmall"></IonTitle>

@@ -73,6 +73,15 @@ const Home: React.FC<RouteComponentProps> = (props) => {
                 <div>
                   <IonRow>
                     <IonCol>
+                      <IonText color="dark" className="find-out-more">
+                        Magnetic declination, sometimes called magnetic variation, is the angle between magnetic north and true north,
+                        and it changes over time and with location. 
+                        Declination is positive when east of true north and negative when west.
+                        </IonText>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
                       <ShowChart />
                     </IonCol>
                   </IonRow>
